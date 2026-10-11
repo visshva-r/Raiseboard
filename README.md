@@ -19,20 +19,25 @@ Small MERN app for the StartupMeu internship task. Founders post a funding raise
 
 ## AI development tool
 
-**Kiro** — used for initial feature specification and task breakdown (Quick Spec / plan). Implementation and debugging were done locally with AI assistance (Cursor Composer) under the submission deadline.
+**Code0** ([VS Code extension](https://marketplace.visualstudio.com/items?itemName=frigga.code0)) — used in **Visual Studio Code** during the final development pass on this repository. See [docs/CODE0-SESSION.md](docs/CODE0-SESSION.md) for the exact prompts and workflow.
 
-### AI tasks (3–5)
+### AI Development Experience
 
-1. **Specification** — Defined models, REST routes, and React pages before coding.
-2. **Database layer** — Mongoose schemas and unique compound index on `Interest` (`user` + `startup`).
-3. **Auth API** — Register/login, JWT middleware, protected routes.
-4. **Startups & interest API** — List/detail/create raises; interest endpoint with duplicate handling; founder-only interested user list.
-5. **React UI** — Auth context, routing, forms, and wiring to the API (including fixing proxy/CORS during local dev).
+I used Code0 as an pair-programming assistant: I selected the relevant file, described the change in natural language, reviewed the diff, and ran the app locally before committing. When Code0’s suggestion was wrong (e.g. route order or stale state after interest), I fixed it manually — that matches how I use AI tools on real tasks.
+
+### Five Code0 tasks
+
+1. **API hardening** — Added a JSON 404 handler for unknown `/api/*` routes in `server/src/app.js`.
+2. **Component UX** — Improved `RaiseDetail.jsx` with a loading/disabled state on “I’m interested”.
+3. **Auth validation** — Reviewed and tightened validation messages in `server/src/routes/auth.routes.js` (required fields, trimmed email).
+4. **Client error handling** — Updated `client/src/api/client.js` to clear JWT on 401 and show a session-expired message.
+5. **Documentation** — Refined this README and the Code0 session log so setup and AI usage match what was built.
 
 ## Prerequisites
 
 - Node.js 18+
 - MongoDB Atlas connection string
+- VS Code with Code0 extension (for reproducing the AI workflow above)
 
 ## Setup
 

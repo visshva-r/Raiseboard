@@ -9,6 +9,7 @@ export default function RaiseDetail() {
   const [startup, setStartup] = useState(null);
   const [error, setError] = useState('');
   const [msg, setMsg] = useState('');
+  const [interestLoading, setInterestLoading] = useState(false);
 
   async function load() {
     setError('');
@@ -27,12 +28,15 @@ export default function RaiseDetail() {
   async function expressInterest() {
     setMsg('');
     setError('');
+    setInterestLoading(true);
     try {
       await api(`/startups/${id}/interest`, { method: 'POST' });
       setMsg('Interest recorded.');
       await load();
     } catch (e) {
       setError(e.message);
+    } finally {
+      setInterestLoading(false);
     }
   }
 
@@ -64,8 +68,8 @@ export default function RaiseDetail() {
         <p className="muted">Founder: {startup.founder?.name}</p>
 
         {user && !isFounder && !startup.hasInterested && (
-          <button type="button" onClick={expressInterest}>
-            I&apos;m interested
+          <button type="button" onClick={expressInterest} disabled={interestLoading}>
+            {interestLoading ? 'Saving…' : "I'm interested"}
           </button>
         )}
         {user && !isFounder && startup.hasInterested && (

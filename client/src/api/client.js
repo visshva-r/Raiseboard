@@ -18,7 +18,12 @@ export async function api(path, options = {}) {
   const data = await res.json().catch(() => ({}));
 
   if (!res.ok) {
-    const err = new Error(data.message || 'Request failed');
+    if (res.status === 401) {
+      setToken(null);
+    }
+    const err = new Error(
+      res.status === 401 ? 'Session expired — please log in again.' : data.message || 'Request failed'
+    );
     err.status = res.status;
     throw err;
   }

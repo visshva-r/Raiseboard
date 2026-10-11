@@ -21,6 +21,10 @@ app.get('/api/health', (_req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/startups', startupRoutes);
 
+app.use('/api/*', (_req, res) => {
+  res.status(404).json({ message: 'Not found' });
+});
+
 app.use(errorHandler);
 
 export default app;
