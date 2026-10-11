@@ -41,9 +41,11 @@ export default function RaiseDetail() {
   }
 
   if (error && !startup) {
+    const notFound = error.includes('not found') || error.includes('Not found');
     return (
       <div className="container">
-        <p className="error">{error}</p>
+        <h1>{notFound ? 'Raise not found' : 'Something went wrong'}</h1>
+        <p className={notFound ? 'muted' : 'error'}>{error}</p>
         <Link to="/">Back home</Link>
       </div>
     );

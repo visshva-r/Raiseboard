@@ -1,9 +1,14 @@
 import express from 'express';
+import mongoose from 'mongoose';
 import { Interest } from '../models/Interest.js';
 import { Startup } from '../models/Startup.js';
 import { authRequired, optionalAuth } from '../middleware/auth.js';
 
 const router = express.Router();
+
+function invalidStartupId(id) {
+  return !mongoose.isValidObjectId(id);
+}
 
 router.get('/', async (_req, res, next) => {
   try {
@@ -34,6 +39,9 @@ router.get('/', async (_req, res, next) => {
 
 router.get('/:id', optionalAuth, async (req, res, next) => {
   try {
+    if (invalidStartupId(req.params.id)) {
+      return res.status(404).json({ message: 'Raise not found' });
+    }
     const startup = await Startup.findById(req.params.id)
       .populate('founder', 'name email')
       .lean();
@@ -119,6 +127,9 @@ router.post('/', authRequired, async (req, res, next) => {
 
 router.post('/:id/interest', authRequired, async (req, res, next) => {
   try {
+    if (invalidStartupId(req.params.id)) {
+      return res.status(404).json({ message: 'Raise not found' });
+    }
     const startup = await Startup.findById(req.params.id);
     if (!startup) return res.status(404).json({ message: 'Raise not found' });
 
